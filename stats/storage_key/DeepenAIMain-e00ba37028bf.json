@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "deepen-161721",
+  "private_key_id": "e00ba37028bf3cd8fc612b5679ea3db36db244b6",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDJBldHYDzEq1ss\nLDu5BYu/Ol10T70seFqfk5l7LdvOB/JaPx/3JX26syTIQqtOGoz7ivU9xdT1FzCF\n453gYOtv+jKExYPp57z3JU01CDReGi5LVw9sP5vjwLeGTzq89SQZAgKtk6CQUjzm\nHl7Tzv3315l5g5Ye3mzIZlxtmc+r1tAXZdLTfeL9yG5l1KxvxytEtt9254R81fiq\nCfzuF/tOZXD1MuFyzAvQA5kaq69eCyM3wEX6SP81exKemEH7SqfGM6Nk7kInun6M\noaBl+Zyg9uuifRRoipklyle0ytBqHiv2DyYHas0PWCnC6gIY0/7mzJercad4nLnq\nsbxp89VTAgMBAAECggEAH32tTYKfcmWvlidlwbHDNxUzD6XwKhe+hpIOMJQ6AzgO\neKG75bELVaR7ph1/jXAuVrdpfKBRoIVd9hN2p3A3YabNpCv24r0JRqQiyKR846Lx\nTp8YTOpYBuEpPtKJjpFOctZ0SfG+7OzdGmV2kHK0KU+ufLEm4rYQT4Jth0PZmv74\nLFwFOlAyJbfIwYIsF5aVLL6i6JhAxtwcQz9M1T4nxp7TxaWln6vbxIDUTPCJLzJ9\nLR8s8IOb1W+mdHH87lcL0tZ0AHDutldDCLIQ2ojTjqdQ+3yyCuGH/COdZXBDWUmE\nVwZEoWJ/MJGBE7VsH0ceeCPdZQP0QNFeDNwFPgFknQKBgQDl7kAP9FZH7xYd+/Vz\nhV61Nu9MAYo7OvGG7uXd4YI4QTsc3iOdcCJEReUdGsazVML0WKO196nwdySQBkcg\nzsM6eG2/6Dbgvk1IJecaKJu7aH8LUF/a4tcTdWrv1dM2xW1oUAhq3CK3nP5Clkgb\nUbuYZ4D+lbWpc/U4cyZ8srZqNwKBgQDf0Rh0umOmurcwjRuJ6Xsn/DRtkDDhGWAC\nSRWugHkPi+wXnBemUrGsTQy5Bb70cAY0/YyL1C2EiZy+XOjaP9ExySWVHhzgY44R\nb32uO9Qle1+Pj0bENiFdxoZ9wCFo59uGgXfcB7ue07gnzUEX/s6/T5kPJRX9eaxo\nqbmNMIwvxQKBgQDM5CHyFalNMKBk18FBz/c1RF65PCYR4dSYiQoNTobb2kTy1ICo\nKuReMmqYJOQrqbyQQOyhmrC0t3a9YNrBQX52/BnQiP1eCDaVtDDb/pPHzLZpPpYs\nVzeQ/3Drh39Pr15vNeJKVyAYvq1UaNaYgZzJknJAaugWuF4sj3AcbqRewQKBgQC7\nndLLXsdUJ2aSq2avV+omHZNxWJKwzw2dPNiQ/B7/OkLBk9Z7VQydK8WDf96PlyyM\n1RIw0L8LQDQFm2qSMTbSbhQ0CRcZvjqEQRpwqLRwaxgzBl7C8cFMk7N/zEP1ZY6v\nFO59onnTbRUNQFDVpYJ3+miKuoLRhWJSJhxlz5FkJQKBgGAj+EZkt2CzMZa3Qxlg\nfsq1TPAkbudEfXKXVPunzn1pCrd+joMoJeV9JmvGNHvHu/14pH1caQR4gFvq3+Vw\nwBX/XaRpjeVUeEtj5Ut4xoKoUOwfES8JSi+/Ht8mbIMBoTWvbnKaoXwukasUtgOs\nghXyXDcgJ84nu3MABu2sF29c\n-----END PRIVATE KEY-----\n",
+  "client_email": "marium-service-account-476@deepen-161721.iam.gserviceaccount.com",
+  "client_id": "109573070042334906628",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/marium-service-account-476%40deepen-161721.iam.gserviceaccount.com"
+}

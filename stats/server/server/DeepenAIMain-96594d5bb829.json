@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "deepen-161721",
+  "private_key_id": "96594d5bb8294b755b4af1eb678d1b6b45822c88",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC6kYL5hiG0NkSf\nyIYzDgdDYvdM1JwZkp5NeMU1me/Cn6WBAumyLDFy379OUktbGwOle1gkWG8Gh/Bd\nmCXOIc3LFE1VBfmHmzEPYKCZwJ4wa3i3+qUz1LFP4e13P/ld7ZNwMqRdpLLWilIo\n2EChqRPBTwNiWXqAmlAU51f5m6nYYn/yO9ixhnVTCGzPvh6S2dxtSANAmys7ytX0\nm6PFB1vMvZ3OG/VGvb14NyG8N20yTt7FMywSS60qmKPtr7MpT6nI+AT6I1aqa2xE\nRUp+UGGfLfqKyXJg9kazNbHg+3hiXUaitMLRPJhGA3J47NIoyiwt7gjP2JoMRWd8\nw8nC9Nm3AgMBAAECggEARzNPK9EfvbnUOLJ7XLKm3PXA8UZWiH/nACPuB0XHNZxd\nuj2VWFT7Th7L0KUhcxR9MMNA4SYKwRBSEDYHf4JxGmaWGLOeBj2Y3IiA4gybklkB\nih0SvRQX0yeiy5bToSAQ24nIJqC7S5sgPcxB5jAzhNuVrAv/72J023Vqoqzghd5y\nTFXxjnqlvfLjvqFWVNQm+1ocjPTfnY3C9A4tj7SjOlBVVDsOGnHL04jBchrMsA4x\nxWzWC2bjK6sOCmH+6YjXlvJZPx0p1gpSg8xU812reovt0A95dbMcj2Mzukz2Ffw3\nOSBYZEqFdrWwViy3zCXf/gAGKUy/ILdSxC7aW/JxaQKBgQDpuL+WIvFMPPJHKbym\niKOT9aL8hh/rT5I9+3TNstojc+UffJrYgiPi/wfdLiDYH6hnZ4NGRLmWaToIokVV\ngsB2J0dv1CLIM7lFM1WPnPjDYAhpeJrQDIwB7zJkYk6d/LYby5rzRXghbkBjbsld\nXMABeklgZ9icmDbtxXixTchj/QKBgQDMWiJXngajoTisrhdH+Oi7DG/lEsyYdzR7\n6M3kx9WNw0TEpqOnXJlhOwS9UJngCgNAuPilkqVGSyWzQvsndV6+3gIYm8Hik65j\n91QsalvGfYxjiI2AaFPZqAVw1TWTLdXzoGBEPpz3zCdA6IjpJ9CE4LMecuwT3+Sj\nVqyVRXpwwwKBgA6BA4qqonTLt3FJGsbu5c/Rx4qKPELbDkVAbJAzUCwxDf/1OJrF\nALsefntwWGNxG39HQjNDIo09/Hb6svjKg20RpPJApOPtqcqsk9u0rw9Yz0zUSi8t\nCCc6k9L88soFG7v/157PKdRRRjelcWOU1OmCkDkmWJ/nJkl9Hq9KF2x1AoGBAJj7\nKRZ6oPHCchEjyx4AQwo0h1fwOOYy50GTyP9qcn7MHiExtvZFpjVZ33RycJ9+H21G\njC43mC8FdtW6YRbrEODGhr8xa3ZZpIYF1Cfj/4ya1Ix236evcoZQ+LG9i3wBJlha\nSXcNgKkpVoGLE2OogLvZE37J/d3rENkOu+iLuNvNAoGAd9XnmziElKnZI+V3OFP9\nHg/TC89HzYCTpaVcksvxAO21fWtOGWlnGXd3Bgn5Q7rhXnJz4LCxFIKMUi4g+prU\nmdYr5TrgT883Lu9t8jyRb8GJZd1yyfiG4INAEPNkTVZUKCjCMpF734z6pMCjZ1FD\n5uWlWyj2NynwYmIIuHEp7Pc=\n-----END PRIVATE KEY-----\n",
+  "client_email": "rannotate-url-signer@deepen-161721.iam.gserviceaccount.com",
+  "client_id": "103754017222528291166",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/rannotate-url-signer%40deepen-161721.iam.gserviceaccount.com"
+}

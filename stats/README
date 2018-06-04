@@ -1,0 +1,234 @@
+=============== READ ME ================
+=======For running label checker app======
+This is the tool used to QA already labeled images with reference to the neural network. This tool has two modes:
+
+1. Polygon boundry
+2. Rectangular bounding boxes
+
+Start the server:
+=================
+
+For bounding box check, please put the NN bounding box file (e.g.
+deepscale_fasterrcnn_resnetv2.json) in the
+/stats/server/Files/documents/ directory.
+
+Go to /stats/server folder
+
+$ python manage.py runserver
+
+1. Polygon boundry:
+====================
+1. We first need to preprocess deepflow values using the file "compute_deepflow_for_polygon_batch.py" in "/stats/" as:
+	$ python compute_deepflow_for_polygon_batch.py -bucket deepenstats -key storage_key/DeepenAIMain-e00ba37028bf.json -img_folder_cloud client_images/zippy/Zippy_batch4/Clip1 -dest_folder /home/marium/Zippy/Zippy_results/Batch4/Clip1/
+
+	- bucket: This is the bucket on gcs where the images are stored
+	- key: private key path which is used to access the stoarge bucket
+	- img_folder_cloud: Folder path where the images are stored in the bucket on the cloud
+	- dest_folder: path to the folder where the results of deepflow would be saved
+
+Note: It will process roughly 1 min per image, wait for it to be done, it will take a while. It will generate quite a lot of files in the path of "dest_folder" flag. For each pair pf image, it will generate 3 files, namely:
+	1. <image1>_<image2>_channel0.jpg
+	2. <image1>_<image2>_channel1.jpg
+	3. <image1>_<image2>_scalingcoeff.npy
+
+Upload these files to the gcs in the bucket "deepenstats" at the path of "Deepflow_results/client_images(if client images, otherwise make a new folder in "Deepflow_results")/<customer name>". These files are necessary to run the next step.
+note: For the "Zippy/batch4/clip1" results, I have already uploaded them on the server.
+
+
+2. To proceed further in running this mode, start by running "check_polygon.py" in folder "/stats/" as 
+	$ python check_polygon.py
+
+This can be run in batch as well as in pair of images. Here, the method how to run in batch is discussed. The sample of the settings are already present in the file. I would suggest to follow those at the first run.
+
+	'image_1': This is used for running batch as well as the pair of images. For batch this field is use to indicate from which image to start from.
+
+        'image_2': This field isn't used for batch, if declared otherwise, it won't affect the execution.
+        'label_1': This is the instance mask of the starting image of the batch
+        'label_2': This field isn't used for batch, if declared otherwise, it won't affect the execution.
+        'predicted_label': This should be empty in polygonal mode.
+        'semantic_seg': if enabled then use 'on', otherwise use 'off'. It is only used in polygonal mode.
+        'bounding_box': This should be 'off' in polygonal mode.
+        'image_storage': This is the bucket on the gcs where the images are stored
+        'image_folder': This is the folder on gcs inside the bucket where the images are stored
+        'private_key_cloud': This is the private key address of the service account, used to access the bucket
+
+        'batch_script': should be 'on'if the batch processing is required
+        'count_of_images': Number of images to work on from the starting image. For example, if we start from "5.jpg" and "count_of_images" is 5, then starting from 5.jpg, 5 images will be processed.
+        'instance_mask_path': Path of the instance mask required for the batch processing.
+	'deepflow_results_path_on_cloud': Path on the gcs, where the deepflow results are saved for the corresponding images.
+	
+	E.g.
+	'image_1': "FlycaptureCamera-17302268-1197932057481579794.jpg", <? Change this, if NOT working on Zippy/batch4/clip1 ?>
+        'image_2': "",
+        'label_1': "instancemask__FlycaptureCamera-17302268-1197932057481579794.jpg.json", <? Change this, if NOT working on Zippy/batch4/clip1 ?>
+        'label_2': "",
+        'predicted_label': "",
+        'semantic_seg': 'on',
+        'bounding_box': 'off',
+
+        'image_storage':'deepenstats',
+        'image_folder':'client_images/zippy/Zippy_batch4/Clip1', <? Change this, if NOT working on Zippy/batch4/clip1 ?>
+        'private_key_cloud': '/home/marium/storage_key/DeepenAIMain-e00ba37028bf.json',
+
+        'batch_script': 'on',
+        'count_of_images': 425,
+        'instance_mask_path': "/home/marium/Zippy/outfiles/", <? Change it ?>
+        'deepflow_results_path_on_cloud': 'Deepflow_results/client_images/Zippy/Batch4/Clip1' <? Change it ?>
+
+wait for ">> completed" to show if the processing is done
+
+3. After completion, it will generate two files, "json_response.json" and "summary.json", both should be in stats/server/ folder and should be required to run the next step.
+
+
+After running this file, to convert the results into html by running script called "convert_label_checker_to_html.py" in /stats/ folder.
+
+	$ python convert_labelchecker_to_html.py -j server/json_response.json -sj server/summary.json --polygon_enabled --is_semantic --batch_processing -p_im /home/marium/Zippy/Batch4/Clip1/
+
+-j = path to json_response.json file generated from the above step.
+-sj = path to summary.json file generated from the above step.
+--polygon_enabled = This flag is used to enable polygon boundary mode
+--is semantic = if semantic segmentation is enabled, if disabled, use --not_semantic instead.
+--batch_processing = This flag is used to enable batch processing
+-p_im = This is the path to the images of the dataset.
+
+wait for the >>completed prompt to show the results, results should be in the form of html in the folder /stats/. Use the next/previous buttons on top of the html page to navigate through the results.
+
+2. Rectangular bounding boxes:
+==============================
+
+Some notes: please use image_name/number as instance mask name, for
+example: 0.jpg image should have corresponding 0.json file as
+mask. This should be observed to match the format with the neural
+network.
+
+Also in the starting phase, I would recommend to store neural network
+file(bboxes_deepscale.json) in /stats/server/Files/documents/ just to
+be on the safe side, instead of on gcs. It's to prevent extended delay
+for the system.(Make sure that you have bbox_deepscale.json file of the corresponding dataset before proceeding to the next step) 
+
+1. To run this mode, start by running "check_bbox.py" in folder "/stats/" as 
+	$ python check_bbox.py
+
+This can be run in batch as well as single image. Here, the method how to run in batch is discussed. The sample of the settings are already present in the file. I would suggest to follow those at the first run.
+	'image_1': This should be empty as it's for the polygonal mode
+        'image_2': This should be empty as it's for the polygonal mode
+        'label_1': This is the starting instance mask for the batch
+        'label_2': This should be empty as it's for the polygonal mode
+        'predicted_label': name of the neural network results, make sure you have this file in the
+                           /stats/server/Files/documents/ directory.
+        'segmantic_seg': This should be 'off' as it's for the polygonal mode
+        'bounding_box': This should be 'on', as it indicates that it's bounding box mode
+        'image_storage': This is the bucket on the gcs where neural network labels are stored (we aren't using it for now)
+        'image_folder': This is the folder on gcs inside the bucket where neural network labels are stored (we aren't using it for now)
+        'private_key_cloud':" This is the private key address of the service account, used to access the bucket
+
+        'batch_script': should be 'on' if the batch processing is required
+        'count_of_images': Number of images to work on from the starting image. For example, if we start from "0.json" and "count_of_images" is 5, then starting from 0.json, next 5 json will be processed.
+        'instance_mask_path': Path of the instance mask (0.json, 1.json, ...) required for the batch processing.
+
+	E.g.:
+	'image_1': "",
+        'image_2': "",
+        'label_1': "0.json", <starting from this instance mask>
+        'label_2': "",
+        'predicted_label': "bboxes_deepscale.json", <or deepscale_fasterrcnn_resnetv2.json>
+        'segmantic_seg': 'off',
+        'bounding_box': 'on',
+        'image_storage':'deepenstats', <doesn't matter for now>
+        'image_folder':'DeepScale', <doesn't matter for now>
+        'private_key_cloud':"/home/marium/storage_key/DeepenAIMain-e00ba37028bf.json", <doesn't matter for now>
+
+        'batch_script': 'on',
+        'count_of_images': 2999, <number of images to process>
+        'instance_mask_path': "/home/marium/deepen_deepscale/" <? change this ?>
+
+	
+wait for ">> completed" to show if the processing is done
+After completion, it will generate two files, "json_response.json" and "summary.json", both should be in stats/server/ folder and should be required to run the next step.
+
+e.g. After running on 50 images:
+
+-rw-rw-r-- 1 wang wang 34966 Jan  8 13:12 server/json_response.json
+-rw-rw-r-- 1 wang wang  4582 Jan  8 13:12 server/summary.json
+
+2. After running this file, to convert the results into html by running script called "convert_label_checker_to_html.py" in /stats/ folder.
+	$ python convert_labelchecker_to_html.py -i1 0.jpg -j server/json_response.json -sj server/summary.json --polygon_disabled --batch_processing -p_im /home/marium/deepen_deepscale/
+
+-i1 = This is the start of the image
+-j = path to json_response.json file generated from the above step.
+-sj = path to summary.json file generated from the above step.
+--polygon_disabled = This flag is used to disable polygon boundary mode
+--batch_processing = This flag is used to enable batch processing
+
+-p_im = This is the path to the images of the dataset. The json labels
+ must also be in this directory.
+
+wait for the >>completed prompt to show the results, results should be
+in the form of html in the folder /stats/. Use the next/previous
+buttons on top of the html page to navigate through the results.
+
+$ ls
+check_bbox.py                    groundtruthcar6_39.jpg  predictedcar7_27.jpg
+check_bbox.py~                   groundtruthcar6_40.jpg  predictedcar7_28.jpg
+check_polygon.py                 groundtruthcar7_24.jpg  predictedcar7_29.jpg
+convert_labelchecker_to_html.py  groundtruthcar7_27.jpg  predictedcar7_30.jpg
+extra_BB_22_.jpg                 groundtruthcar7_28.jpg  predictedcar7_41.jpg
+extra_BB_23_.jpg                 groundtruthcar7_29.jpg  predictedcar8_25.jpg
+extra_BB_24_.jpg                 groundtruthcar7_30.jpg  predictedcar9_25.jpg
+extra_BB_25_.jpg                 groundtruthcar7_41.jpg  predictedcar9_31.jpg
+extra_BB_26_.jpg                 groundtruthcar8_25.jpg  README
+extra_BB_27_.jpg                 groundtruthcar9_25.jpg  Results_0.jpg.html
+extra_BB_28_.jpg                 groundtruthcar9_31.jpg  Results_10.jpg.html
+extra_BB_29_.jpg                 missing_object_21_.jpg  Results_11.jpg.html
+extra_BB_30_.jpg                 missing_object_23_.jpg  Results_12.jpg.html
+extra_BB_31_.jpg                 missing_object_24_.jpg  Results_13.jpg.html
+extra_BB_32_.jpg                 missing_object_25_.jpg  Results_14.jpg.html
+extra_BB_33_.jpg                 missing_object_26_.jpg  Results_15.jpg.html
+extra_BB_37_.jpg                 missing_object_32_.jpg  Results_16.jpg.html
+extra_BB_38_.jpg                 missing_object_35_.jpg  Results_17.jpg.html
+extra_BB_39_.jpg                 missing_object_38_.jpg  Results_18.jpg.html
+extra_BB_40_.jpg                 missing_object_40_.jpg  Results_19.jpg.html
+extra_BB_41_.jpg                 missing_object_45_.jpg  Results_1.jpg.html
+extra_BB_42_.jpg                 missing_object_46_.jpg  Results_20.jpg.html
+extra_BB_43_.jpg                 missing_object_47_.jpg  Results_21.jpg.html
+extra_BB_44_.jpg                 missing_object_48_.jpg  Results_22.jpg.html
+extra_BB_45_.jpg                 missing_object_49_.jpg  Results_23.jpg.html
+extra_BB_46_.jpg                 predictedcar1_22.jpg    Results_24.jpg.html
+extra_BB_47_.jpg                 predictedcar1_26.jpg    Results_25.jpg.html
+extra_BB_48_.jpg                 predictedcar1_29.jpg    Results_26.jpg.html
+groundtruthcar1_22.jpg           predictedcar1_32.jpg    Results_27.jpg.html
+groundtruthcar1_26.jpg           predictedcar1_34.jpg    Results_28.jpg.html
+groundtruthcar1_29.jpg           predictedcar1_35.jpg    Results_29.jpg.html
+groundtruthcar1_32.jpg           predictedcar1_36.jpg    Results_2.jpg.html
+groundtruthcar1_34.jpg           predictedcar1_38.jpg    Results_30.jpg.html
+groundtruthcar1_35.jpg           predictedcar1_39.jpg    Results_31.jpg.html
+groundtruthcar1_36.jpg           predictedcar1_47.jpg    Results_32.jpg.html
+groundtruthcar1_38.jpg           predictedcar1_49.jpg    Results_33.jpg.html
+groundtruthcar1_39.jpg           predictedcar2_23.jpg    Results_34.jpg.html
+groundtruthcar1_47.jpg           predictedcar2_24.jpg    Results_35.jpg.html
+groundtruthcar1_49.jpg           predictedcar2_27.jpg    Results_36.jpg.html
+groundtruthcar2_23.jpg           predictedcar2_30.jpg    Results_37.jpg.html
+groundtruthcar2_24.jpg           predictedcar2_31.jpg    Results_38.jpg.html
+groundtruthcar2_27.jpg           predictedcar2_33.jpg    Results_39.jpg.html
+groundtruthcar2_30.jpg           predictedcar2_37.jpg    Results_3.jpg.html
+groundtruthcar2_31.jpg           predictedcar2_44.jpg    Results_40.jpg.html
+groundtruthcar2_33.jpg           predictedcar2_48.jpg    Results_41.jpg.html
+groundtruthcar2_37.jpg           predictedcar2_49.jpg    Results_42.jpg.html
+groundtruthcar2_44.jpg           predictedcar3_25.jpg    Results_43.jpg.html
+groundtruthcar2_48.jpg           predictedcar3_26.jpg    Results_44.jpg.html
+groundtruthcar2_49.jpg           predictedcar3_28.jpg    Results_45.jpg.html
+groundtruthcar3_25.jpg           predictedcar3_46.jpg    Results_46.jpg.html
+groundtruthcar3_26.jpg           predictedcar4_23.jpg    Results_47.jpg.html
+groundtruthcar3_28.jpg           predictedcar4_25.jpg    Results_48.jpg.html
+groundtruthcar3_46.jpg           predictedcar4_28.jpg    Results_49.jpg.html
+groundtruthcar4_23.jpg           predictedcar4_39.jpg    Results_4.jpg.html
+groundtruthcar4_25.jpg           predictedcar5_23.jpg    Results_5.jpg.html
+groundtruthcar4_28.jpg           predictedcar5_41.jpg    Results_6.jpg.html
+groundtruthcar4_39.jpg           predictedcar5_44.jpg    Results_7.jpg.html
+groundtruthcar5_23.jpg           predictedcar6_31.jpg    Results_8.jpg.html
+groundtruthcar5_41.jpg           predictedcar6_32.jpg    Results_9.jpg.html
+groundtruthcar5_44.jpg           predictedcar6_37.jpg    server
+groundtruthcar6_31.jpg           predictedcar6_39.jpg    storage_key
+groundtruthcar6_32.jpg           predictedcar6_40.jpg
+groundtruthcar6_37.jpg           predictedcar7_24.jpg
+

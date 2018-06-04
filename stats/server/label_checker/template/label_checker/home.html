@@ -1,0 +1,10 @@
+<section>
+<h2> Label checker </h2>
+  <form method="POST" action="">
+    {% csrf_token %}
+    <table border="1">
+      {{ form }}
+    </table>
+    <button type="submit">Submit</button>
+  </form>
+</section>

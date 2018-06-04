@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All</title>
+</head>
+<body>
+{% for user_id in user_ids %}
+    <a href="/view?user_id={{ user_id }}">{{ user_id }}</a><br></br>
+{% endfor %}
+</body>
+</html>

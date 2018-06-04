@@ -1,0 +1,11 @@
+django
+djangorestframework
+django-filter
+mongoengine
+numpy
+google-cloud
+xxhash
+shapely
+dominate
+pyjwt
+schedule

@@ -1,0 +1,16 @@
+Running a local server
+
+Required packages:
+
+sudo apt install python-django python-mongoengine python-djangorestframework python-shapely python-dominate
+
+sudo pip install --upgrade google-cloud
+sudo pip install --upgrade xxhash
+
+Start local server:
+
+python manage.py runserver
+
+Label checker:
+
+http://127.0.0.1:8000/label_checker/home/

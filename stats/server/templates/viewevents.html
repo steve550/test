@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All</title>
+</head>
+<body>
+{% load templatetag %}
+
+{% if "all" == current_user_id %}
+    <strong>all</strong>
+{% else %}
+    <a href="/events?user_id=all&date={{ current_date }}">all</a>
+{% endif %}
+{% for user_id in user_ids %}
+    {% if user_id == current_user_id %}
+        <strong>{{ user_id }}</strong>
+    {% else %}
+        <a href="/events?user_id={{ user_id }}&date={{ current_date }}">{{ user_id }}</a>
+    {% endif %}
+{% endfor %}
+<br>
+{% for date in display_dates %}
+    {% if date == current_date %}
+        <strong>{{ date }}</strong>
+    {% else %}
+        <a href="/events?user_id={{ current_user_id }}&date={{ date }}">{{ date }}</a>
+    {% endif %}
+
+{% endfor %}
+<br>
+<br>
+<p>Total Duration: {{ total_duration }}</p>
+<p>Main Duration: {{ non_qa_duration }}</p>
+<p>QA Duration: {{ qa_duration }}</p>
+<p>Total Finished Files: {{ total_files_finished }}</p>
+<br>
+<br>
+<h4>Summary</h4>
+<table border="1" style="width:100%">
+    <tr style="background: orange;">
+        <th>event type</th>
+        <th>file hash</th>
+        <th>total duration</th>
+        <th>last end time</th>
+    </tr>
+    {% for summary in summaries %}
+        <tr>
+            <td>{{ summary.event_id }}</td>
+            <td>{{ summary.file_hash }}</td>
+            <td>{{ summary.duration | format_timedelta }}</td>
+            <td>{{ summary.last_end_time | to_ist }}</td>
+        </tr>
+    {% endfor %}
+</table>
+<br>
+<br>
+<h4>All Events</h4>
+<table border="1" style="width:100%">
+    <tr style="background: orange;">
+        <th>user</th>
+        <th>tool</th>
+        <th>event type</th>
+        <th>elapsed time</th>
+        <th>start_time</th>
+        <th>end_time</th>
+        <th style="word-wrap: break-word; max-width: 250px;">file path</th>
+        <th style="word-wrap: break-word; max-width: 150px;">file hash</th></a>
+        <th style="word-wrap: break-word; max-width: 250px;">output path</th>
+        <th style="word-wrap: break-word; max-width: 150px;">output hash</th>
+    </tr>
+    {% for event in events %}
+        <tr>
+            <td>{{ event.user_id }}</td>
+            <td>{{ event.tool_id }}</td>
+            <td>{{ event.event_id }}</td>
+            <td>{{ event | duration }}</td>
+            <td>{{ event.start_time | to_ist }}</td>
+            <td>{{ event.end_time | to_ist }}</td>
+            <td style="word-wrap: break-word; max-width: 250px;">{{ event.file_path }}</td>
+            <td style="word-wrap: break-word; max-width: 150px;"><a href='https://storage.cloud.google.com/steveuploadtest/{{ event.file_sha256 }}.png?organizationId=547635249780&_'>{{ event.file_sha256 }}</a></td>
+            <td style="word-wrap: break-word; max-width: 250px;">{{ event.output_path }}</td>
+            <td style="word-wrap: break-word; max-width: 150px;">{{ event.output_sha256 }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

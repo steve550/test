@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exceptions</title>
+</head>
+<body>
+{% load templatetag %}
+
+<center><h4>All Exceptions</h4></center>
+<p>{% for user_id in user_ids %}
+    <a href="/exception?user_id={{ user_id }}">{{ user_id }}</a>
+{% endfor %}</p>
+<table border="1" style="width:100%">
+    <tr style="background: powderblue;">
+        <th>User Id</th>
+        <th>Exception</th>
+        <th>Date and Time</th>
+    </tr>
+{% for exception in exceptions %}
+
+    <tr>
+        <td><font color="blue">
+            <h3>{{ exception.user }}</h3></font></td>
+        <td> {{ exception.exception }}</td>
+        <td>{{ exception.date_time }}</td>
+    </tr>
+{% endfor %}
+</table>
+</body>
+</html>

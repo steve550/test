@@ -1,0 +1,10 @@
+{% if all_dataset %}
+    <h1> Datasets on the server </h1>
+    <ul>
+        {% for dataset in all_dataset %}
+            <li><a href="{% url 'label_checker:detail' dataset.id %}">{{ dataset.dataset_name }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <h3>You don't have any dataset</h3>
+{% endif %}
